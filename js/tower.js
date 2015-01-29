@@ -765,7 +765,7 @@
       camera.ry = Math.max(0, camera.ry); // dont let sub-frame interpolation take the camera below the horizon
 
       this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
-      //this.renderStars(this.ctx);
+      this.renderStars(this.ctx);
       this.ctx.save();
       this.ctx.translate(WIDTH/2, 0);
       this.renderBack(this.ctx);
