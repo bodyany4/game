@@ -743,7 +743,7 @@
       this.canvas        = Game.Canvas.init(Dom.get('canvas'), WIDTH, HEIGHT);
       this.ctx           = this.canvas.getContext('2d');
       this.stars         = this.createStars();
-      //this.gradient      = this.createGradient();
+      this.gradient      = this.createGradient();
       this.ground        = this.createGround();
       this.debug         = Dom.get('debug');
       this.score         = Dom.get('score');
