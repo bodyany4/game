@@ -1,5 +1,7 @@
 (function() {
 
+
+
   //===========================================================================
   // ДЕТЕРМИНИРУЕМ МИР
   //===========================================================================
@@ -71,16 +73,6 @@
   function nearColCenter(x,col,limit) { return limit > Math.abs(x - col2x(col + 0.5))/(COL_WIDTH/2);       }  // проверка координаты х по отношению к столбцу башни
   function nearRowSurface(y,row)      { return y > (row2y(row+1) - ROW_SURFACE);                           }  // проверка координаты у по отношению к строке башни
 
-
-    /*if (FLAT) {
-            tx = function(x, r) {
-                  x = normalizex(x-camera.rx);
-                  if (x > (tower.w/2)) {
-                        x = - (tower.w - x);
-                      }
-                  return x;
-                };
-          }*/
   //===========================================================================
   // НАЧАЛЬНЫЕ НАСТРОЙКИ ИГРЫ / ОБНОВЛЕНИЕ / РЕНДЕР
   //===========================================================================
@@ -152,8 +144,6 @@
       this.cols     = level.map[0].length;
       this.ir       = WIDTH/4;                 // внутренний радиус стен
       this.or       = this.ir * 1.2;           // радиус стен и платформ
-      //this.ir       = FLAT ? WIDTH/2 : WIDTH/4;
-      //this.or       = this.ir * 1.2;
       this.w        = this.cols * COL_WIDTH;
       this.h        = this.rows * ROW_HEIGHT;
       this.map      = this.createMap(level.map);
@@ -373,18 +363,12 @@
       this.updateCollisionPoint(ld);
       this.updateCollisionPoint(lu);
 
-        if (coin())
-            collectCoin();
-
       if      (tl.coin) return this.collectCoin(tl);
       else if (tr.coin) return this.collectCoin(tr);
       else if (ml.coin) return this.collectCoin(ml);
       else if (mr.coin) return this.collectCoin(mr);
       else if (bl.coin) return this.collectCoin(bl);
       else if (br.coin) return this.collectCoin(br);
-
-        if (fallingDown())
-            doFall();
 
       if (fallingDown && bl.blocked && !ml.blocked && !tl.blocked && nearRowSurface(this.y + bl.y, bl.row))
         return this.collideDown(bl);
@@ -441,9 +425,6 @@
       // проверка на лестнице (падаем ли мы?)
       if (climbing && !onLadder)
         return this.stopClimbing();
-
-        if (isMonsterNearby)
-            takeHit();
 
       if (!this.hurting && (tl.monster || tr.monster || ml.monster || mr.monster || bl.monster || br.monster || lu.monster || ld.monster))
         return this.hitMonster();
@@ -568,10 +549,6 @@
 
     update: function(dt) {
       var n, max, all = this.all;
-        $.each(this.all, function(index, monster) {
-           monster.update(dt);
-        });
-
       for(n = 0, max = all.length ; n < max ; n++)
         all[n].update(dt);
     },
@@ -628,9 +605,6 @@
         this.maxy = row2y(this.maxrow + 1) + this.ny - this.h;
       }
 
-
-        // mover function
-
       if (type.horizontal) {
         this.mincol = col;
         this.maxcol = col;
@@ -642,6 +616,7 @@
         this.maxx  = col2x(this.maxcol + 1) - this.nx - this.w;
         this.wrapx = this.minx > this.maxx;
       }
+
     },
 
     //-------------------------------------------------------------------------
@@ -678,9 +653,7 @@
         this.animation = this.type.animation.up;
       }
 
-        // if (inRange())
       if (this.left && (this.x < this.minx) && (!this.wrapx || this.x > this.maxx)) {
-          // goRight()
         this.x = this.minx;
         this.left = false;
         this.right = true;
@@ -749,7 +722,6 @@
       this.score         = Dom.get('score');
       this.vscore        = 0;
       this.platformWidth = 2 * tower.or * Math.tan((360/tower.cols) * Math.PI / 360);
-      //this.platformWidth = FLAT ? COL_WIDTH : 2 * tower.or * Math.tan((360/tower.cols) * Math.PI / 360);
     },
 
     //-------------------------------------------------------------------------
@@ -765,7 +737,7 @@
       camera.ry = Math.max(0, camera.ry); // dont let sub-frame interpolation take the camera below the horizon
 
       this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
-      this.renderStars(this.ctx);
+      //this.renderStars(this.ctx);
       this.ctx.save();
       this.ctx.translate(WIDTH/2, 0);
       this.renderBack(this.ctx);
